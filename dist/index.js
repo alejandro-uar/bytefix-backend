@@ -1,19 +1,18 @@
 "use strict";
-function createEmploye({ name, fullname, age, dni, category }) {
-    const newEmploye = {
-        name,
-        fullname,
-        age,
-        dni,
-        category
-    };
-    return newEmploye;
-}
-const employeOne = createEmploye({
-    name: 'Alejandro',
-    fullname: 'Luna',
-    age: 22,
-    dni: 4398413,
-    category: ['Sistema']
-});
-console.log(employeOne);
+// Solo levantamos el servidor
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const server_1 = __importDefault(require("./server"));
+const envs_1 = require("./config/envs");
+require("reflect-metadata");
+const data_source_1 = require("./config/data-source");
+data_source_1.AppDataSource.initialize()
+    .then((res) => {
+    console.log(`Db connected successfully`);
+    server_1.default.listen(envs_1.PORT, () => {
+        console.log(`Server listen port: ${envs_1.PORT}`);
+    });
+})
+    .catch((error) => console.log(`Error: `, error));
